@@ -1,8 +1,58 @@
 @import "tailwindcss";
 
+/* Tailwind v4 的 dark 变体改为基于 .dark 类（不跟随系统） */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* macOS 浅色系统色板 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f0f0f2;
+  --fill: rgba(255, 255, 255, 0.75);
+  --fill-h: rgba(0, 0, 0, 0.06);
+  --txt: #1d1d1f;
+  --arr: rgba(0, 0, 0, 0.85);
+  --dim: rgba(0, 0, 0, 0.5);
+  --line: rgba(0, 0, 0, 0.1);
+  --hair: rgba(0, 0, 0, 0.07);
+  --blue: #007aff;
+  --blue-t: rgba(0, 122, 255, 0.14);
+  --green: #34c759;
+  --green-t: rgba(52, 199, 89, 0.16);
+  --orange: #ff9500;
+  --orange-t: rgba(255, 149, 0, 0.18);
+  --purple: #af52de;
+  --purple-t: rgba(175, 82, 222, 0.16);
+  --red: #ff3b30;
+  --red-t: rgba(255, 59, 48, 0.14);
+  --cyan: #32ade6;
+  --cyan-t: rgba(50, 173, 230, 0.16);
+  --background: #f0f0f2;
+  --foreground: #1d1d1f;
+}
+
+/* macOS 深色系统色板 */
+.dark {
+  --bg: #1e1e1e;
+  --fill: rgba(255, 255, 255, 0.06);
+  --fill-h: rgba(255, 255, 255, 0.08);
+  --txt: #f5f5f7;
+  --arr: rgba(235, 235, 245, 0.92);
+  --dim: rgba(235, 235, 245, 0.45);
+  --line: rgba(255, 255, 255, 0.1);
+  --hair: rgba(255, 255, 255, 0.07);
+  --blue: #0a84ff;
+  --blue-t: rgba(10, 132, 255, 0.24);
+  --green: #30d158;
+  --green-t: rgba(48, 209, 88, 0.22);
+  --orange: #ff9f0a;
+  --orange-t: rgba(255, 159, 10, 0.2);
+  --purple: #bf5af2;
+  --purple-t: rgba(191, 90, 242, 0.2);
+  --red: #ff453a;
+  --red-t: rgba(255, 69, 58, 0.2);
+  --cyan: #64d2ff;
+  --cyan-t: rgba(100, 210, 255, 0.22);
+  --background: #1e1e1e;
+  --foreground: #f5f5f7;
 }
 
 @theme inline {
@@ -12,15 +62,9 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Helvetica Neue", Arial, sans-serif;
 }
