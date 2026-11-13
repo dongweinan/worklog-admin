@@ -1,0 +1,1 @@
+ALTER TABLE "due_override" ADD COLUMN "source" varchar(10) DEFAULT 'manual' NOT NULL;

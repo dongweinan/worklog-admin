@@ -8,6 +8,13 @@
       "when": 1794547322422,
       "tag": "0000_cheerful_master_chief",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794557571347,
+      "tag": "0001_abnormal_firedrake",
+      "breakpoints": true
     }
   ]
 }
