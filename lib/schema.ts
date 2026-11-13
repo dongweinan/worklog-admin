@@ -64,7 +64,8 @@ export const settings = pgTable('settings', {
   updatedAt: timestamp('updated_at'),
 })
 
-// 应出勤天数手动覆盖表：每用户每月一条
+// 应出勤天数覆盖表：每用户每月一条
+// source: 'manual'（用户手动设置）| 'auto'（前端节假日表自动兜底，用户未改时）
 export const dueOverrides = pgTable(
   'due_override',
   {
@@ -74,6 +75,7 @@ export const dueOverrides = pgTable(
       .references(() => users.id),
     month: varchar('month', { length: 7 }).notNull(), // YYYY-MM
     value: varchar('value', { length: 10 }).notNull(), // 例如 '21'
+    source: varchar('source', { length: 10 }).notNull().default('manual'), // manual | auto
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at'),
   },

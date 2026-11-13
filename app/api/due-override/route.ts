@@ -24,7 +24,10 @@ export async function GET(req: NextRequest) {
     where: and(eq(dueOverrides.userId, userId), eq(dueOverrides.month, ym)),
   })
 
-  return NextResponse.json({ value: row ? row.value : '' })
+  return NextResponse.json({
+    value: row ? row.value : '',
+    source: row ? row.source : '',
+  })
 }
 
 // PUT /api/due-override?year=2026&month=11
@@ -46,6 +49,7 @@ export async function PUT(req: NextRequest) {
 
   const body = await req.json()
   const value = body?.value as string | null | undefined
+  const source = body?.source === 'manual' ? 'manual' : 'auto'
 
   // 空串或 null 表示清除覆盖 → 删除该行
   if (value === '' || value == null) {
@@ -57,10 +61,10 @@ export async function PUT(req: NextRequest) {
 
   await db
     .insert(dueOverrides)
-    .values({ userId, month: ym, value, updatedAt: new Date() })
+    .values({ userId, month: ym, value, source, updatedAt: new Date() })
     .onConflictDoUpdate({
       target: [dueOverrides.userId, dueOverrides.month],
-      set: { value, updatedAt: new Date() },
+      set: { value, source, updatedAt: new Date() },
     })
 
   return NextResponse.json({ ok: true })
