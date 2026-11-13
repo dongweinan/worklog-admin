@@ -11,6 +11,28 @@ services:
       - '5432:5432' # 本机 5432 端口 → 容器 5432
     volumes:
       - pgdata:/var/lib/postgresql/data # 数据持久化，存在专用卷里
+    healthcheck: # 数据库就绪检测：web 只有等它 healthy 才启动
+      test: ['CMD-SHELL', 'pg_isready -U worklog']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    container_name: worklog_web
+    restart: unless-stopped
+    ports:
+      - '8899:3000' # 宿主机 8899 → 容器内 3000（Next 监听端口）
+    environment:
+      # 密钥通过运行时环境变量注入，不写死在代码/镜像里（线上务必设置真实值）
+      JWT_SECRET: ${JWT_SECRET}
+      WECHAT_APPID: ${WECHAT_APPID}
+      WECHAT_APPSECRET: ${WECHAT_APPSECRET}
+      # 主机名用 compose 服务名 postgres，不是 localhost（容器内 localhost 指它自己）
+      DATABASE_URL: postgresql://worklog:worklog123@postgres:5432/worklog
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   pgdata:
